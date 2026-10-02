@@ -1,0 +1,136 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-heading: var(--font-sans);
+    --font-sans: 'Archivo', system-ui, sans-serif;
+    --font-lcd: 'DotGothic16', ui-monospace, monospace;
+    --color-chassis: var(--chassis);
+    --color-chassis-deep: var(--chassis-deep);
+    --color-ink: var(--ink);
+    --color-ink-soft: var(--ink-soft);
+    --color-lcd: var(--lcd);
+    --color-lcd-ink: var(--lcd-ink);
+    --color-lcd-dim: var(--lcd-dim);
+    --color-pad: var(--pad);
+    --color-pad-edge: var(--pad-edge);
+    --color-lit: var(--lit);
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+    /* Sampler hardware: sage chassis, navy silkscreen, green LCD, rubber pads, amber when lit */
+    --chassis: #c4c8c0;
+    --chassis-deep: #b2b7ad;
+    --ink: #1b2430;
+    --ink-soft: #4a5560;
+    --lcd: #26331c;
+    --lcd-ink: #b5d16a;
+    --lcd-dim: #4e6332;
+    --pad: #e9e6dd;
+    --pad-edge: #c9c5b9;
+    --lit: #f0a830;
+
+    --background: var(--chassis);
+    --foreground: var(--ink);
+    --card: var(--pad);
+    --card-foreground: var(--ink);
+    --popover: var(--ink);
+    --popover-foreground: var(--pad);
+    --primary: var(--ink);
+    --primary-foreground: var(--pad);
+    --secondary: var(--pad);
+    --secondary-foreground: var(--ink);
+    --muted: var(--chassis-deep);
+    --muted-foreground: var(--ink-soft);
+    --accent: var(--chassis-deep);
+    --accent-foreground: var(--ink);
+    --destructive: #b3261e;
+    --border: #a3a99e;
+    --input: #a3a99e;
+    --ring: var(--lit);
+    --radius: 0.5rem;
+}
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    }
+  body {
+    @apply bg-background text-foreground;
+    }
+  html {
+    @apply font-sans;
+    }
+}
+@layer base {
+  html { font-size: 15px; -webkit-font-smoothing: antialiased; }
+  body { background: var(--chassis); min-height: 100dvh; }
+  ::selection { background: var(--lit); color: var(--ink); }
+}
+
+.font-lcd { font-family: var(--font-lcd); letter-spacing: 0.02em; }
+.wordmark { font-stretch: 125%; font-weight: 850; letter-spacing: -0.03em; line-height: 0.9; }
+
+/* The pad: moulded rubber, pressed in when struck */
+.pad {
+  background: var(--pad);
+  border: 1px solid var(--pad-edge);
+  box-shadow: inset 0 -3px 0 rgb(0 0 0 / 0.06), 0 1px 0 rgb(255 255 255 / 0.5);
+  transition: background-color 60ms linear, box-shadow 60ms linear, transform 60ms linear;
+}
+.pad[data-lit='true'] {
+  background: var(--lit);
+  border-color: #c98a1e;
+  box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.18), 0 0 0 3px rgb(240 168 48 / 0.25);
+  transform: translateY(1px);
+}
+.lcd-glass { box-shadow: inset 0 2px 10px rgb(0 0 0 / 0.55), 0 1px 0 rgb(255 255 255 / 0.4); }
+
+@keyframes scan { from { transform: translateX(-100%); } to { transform: translateX(500%); } }
+.lcd-scan { animation: scan 1.4s steps(20) infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .lcd-scan { animation: none; }
+  .pad { transition: none; }
+}
